@@ -1,0 +1,40 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "(API) ExpressJS server for TicketIT app.",
+  "main": "./src/app.js",
+  "scripts": {
+    "clean": "rm -rf ./node_modules && rm ./package-lock.json",
+    "start": "node .",
+    "start:dev": "nodemon .",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KleoHasani/TicketIT.git"
+  },
+  "keywords": [
+    "TicketIT"
+  ],
+  "author": "Kleo Hasani",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/KleoHasani/TicketIT/issues"
+  },
+  "homepage": "https://github.com/KleoHasani/TicketIT/tree/main/api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.17.1",
+    "express-validator": "^6.6.1",
+    "http-errors": "^1.8.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.15",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0",
+    "mocha": "^8.2.1",
+    "nodemon": "^2.0.6"
+  }
+}
