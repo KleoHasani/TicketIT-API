@@ -11,17 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KleoHasani/TicketIT.git"
+    "url": "git+https://github.com/KleoHasani/TicketIT-API.git"
   },
   "keywords": [
-    "TicketIT"
+    "TicketIT",
+    "API"
   ],
   "author": "Kleo Hasani",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/KleoHasani/TicketIT/issues"
+    "url": "https://github.com/KleoHasani/TicketIT-API/issues"
   },
-  "homepage": "https://github.com/KleoHasani/TicketIT/tree/main/api#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
     "express": "^4.17.1",
