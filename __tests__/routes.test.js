@@ -1,9 +1,11 @@
 const request = require("supertest");
-const { m_app } = require("../src/app");
 const { disconnect, connection } = require("mongoose");
+
+const { m_app } = require("../src/app");
 
 let server = null;
 let token = null;
+let refresh = null;
 
 beforeAll((done) => {
   server = m_app.listen(3000, () => {
@@ -19,6 +21,7 @@ afterAll(async (done) => {
   await disconnect();
   server = null;
   token = null;
+  refresh = null;
 });
 
 describe("AUTH Route", () => {
@@ -42,6 +45,22 @@ describe("AUTH Route", () => {
     expect(body.status).toEqual(200);
     expect(body.body.desc).toBe("PASS");
     token = body.headers["authorization"];
+    refresh = body.headers["x-refresh"];
+    expect(token).not.toBeNull();
+    expect(token).toContain("Bearer");
+    expect(refresh).not.toBeNull();
+    done();
+  });
+
+  it("Should send a new refresh token", async (done) => {
+    const body = await request(m_app).get("/api/auth/refresh-token").set({
+      "x-refresh": refresh,
+    });
+    expect(body.status).toEqual(200);
+    expect(body.body.desc).toBe("PASS");
+    token = body.headers["authorization"];
+    expect(token).not.toBeNull();
+    expect(token).toContain("Bearer");
     done();
   });
 
