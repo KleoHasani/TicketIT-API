@@ -6,7 +6,7 @@
 Clone:
 
 ```
-git clone https://github.com/KleoHasani/TicketIT.git
+git clone https://github.com/KleoHasani/TicketIT-API.git
 ```
 
 Create .env file in root directory of this project:
