@@ -27,6 +27,7 @@ afterAll(async (done) => {
 });
 
 describe("TOKEN", () => {
+  // access token
   it("Should genereate new access token", (done) => {
     token = signAccessToken(payload);
     expect(token).not.toBeNull();

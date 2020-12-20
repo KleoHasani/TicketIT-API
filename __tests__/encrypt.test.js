@@ -15,6 +15,7 @@ afterAll((done) => {
 });
 
 describe("ENCRYPT", () => {
+  // encrypt
   it("Should encrypt string data and return encrypted string.", async (done) => {
     encrypted = await encrypt(data);
     expect(encrypted).not.toBeNull();
@@ -52,6 +53,7 @@ describe("ENCRYPT", () => {
     done();
   });
 
+  // validate
   it("Should validate encrypted string and return true", async (done) => {
     const validated = await validate(data, encrypted);
     expect(validated).not.toBeNull();

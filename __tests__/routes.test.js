@@ -25,6 +25,7 @@ afterAll(async (done) => {
 });
 
 describe("AUTH Route", () => {
+  // register
   it("Should register new user", async (done) => {
     const body = await request(m_app).post("/api/auth/register").send({
       firstname: "Admin",
@@ -37,6 +38,7 @@ describe("AUTH Route", () => {
     done();
   });
 
+  // login
   it("Should login user", async (done) => {
     const body = await request(m_app).post("/api/auth/login").send({
       email: "admin@admin.com",
@@ -52,6 +54,7 @@ describe("AUTH Route", () => {
     done();
   });
 
+  // refresh
   it("Should send a new refresh token", async (done) => {
     const body = await request(m_app).get("/api/auth/refresh-token").set({
       "x-refresh": refresh,
@@ -64,6 +67,7 @@ describe("AUTH Route", () => {
     done();
   });
 
+  // logout
   it("Should logout user", async (done) => {
     const body = await request(m_app)
       .delete("/api/auth/logout")
