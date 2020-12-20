@@ -6,9 +6,10 @@ const { set } = require("../Models/Blacklist.model");
 module.exports = {
   /**
    * @param {string} m_payload
-   * @returns {string}
+   * @returns {string | null}
    */
   signAccessToken: (m_payload) => {
+    if (!m_payload) return null;
     return sign({ payload: m_payload }, process.env.ACCESS_TOKEN, {
       algorithm: "HS512",
       audience: m_payload.toString(),
@@ -19,9 +20,10 @@ module.exports = {
 
   /**
    * @param {string} m_payload
-   * @returns {string}
+   * @returns {string | null}
    */
   signRefreshToken: async (m_payload) => {
+    if (!m_payload) return null;
     try {
       const m_token = sign({ payload: m_payload }, process.env.REFRESH_TOKEN, {
         algorithm: "HS512",
@@ -42,6 +44,7 @@ module.exports = {
    * @returns {string | object}
    */
   verifyAccessToken: (m_token) => {
+    if (!m_token) return null;
     return verify(m_token, process.env.ACCESS_TOKEN, {
       algorithms: ["HS512"],
       issuer: "TICKETIT-API",
@@ -53,6 +56,7 @@ module.exports = {
    * @returns {string | object}
    */
   verifyRefreshToken: (m_token) => {
+    if (!m_token) return null;
     try {
       return verify(m_token, process.env.REFRESH_TOKEN, {
         algorithms: ["HS512"],
