@@ -3,6 +3,7 @@
 (API) ExpressJS server for TicketIT app.
 
 ## Getting Started
+
 Clone:
 
 ```
@@ -24,6 +25,12 @@ Or use generator for more secure strings:
 node gen_env.js
 ```
 
+Test .env.test
+
+```
+node gen_env_test.js
+```
+
 Install dependencies:
 
 ```
@@ -41,6 +48,7 @@ Run Dev:
 ```
 npm run start:dev
 ```
+
 ## Required
 
 Node v15.2.0
