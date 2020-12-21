@@ -23,7 +23,7 @@ afterAll(async (done) => {
 
 describe("AUTH ROUTE", () => {
   // register
-  describe("Register endpoint", () => {
+  describe("POST - Register endpoint", () => {
     it("Should register new user", async (done) => {
       const body = await request(m_app).post("/api/auth/register").send({
         firstname: "Admin",
@@ -144,7 +144,7 @@ describe("AUTH ROUTE", () => {
   });
 
   // login
-  describe("Login endpoint", () => {
+  describe("POST - Login endpoint", () => {
     it("Should login user", async (done) => {
       const body = await request(m_app).post("/api/auth/login").send({
         email: "admin@admin.com",
@@ -197,7 +197,7 @@ describe("AUTH ROUTE", () => {
   });
 
   // refresh
-  describe("Refresh endpoint", () => {
+  describe("GET - Refresh endpoint", () => {
     it("Should send a new refresh token", async (done) => {
       const body = await request(m_app).get("/api/auth/refresh-token").set({
         "x-refresh": refresh,
@@ -226,7 +226,7 @@ describe("AUTH ROUTE", () => {
   });
 
   // logout
-  describe("Logout endpoint", () => {
+  describe("DELETE - Logout endpoint", () => {
     it("Should logout user", async (done) => {
       const body = await request(m_app)
         .delete("/api/auth/logout")
