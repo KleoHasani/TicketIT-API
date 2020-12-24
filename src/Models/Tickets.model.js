@@ -54,14 +54,16 @@ module.exports = {
    * @param {string} m_project
    * @param {string} m_name
    * @param {TICKET_TYPE} m_type
+   * @param {string} m_content
    */
-  createNewTicket: async (m_creator, m_project, m_name, m_type) => {
+  createNewTicket: async (m_creator, m_project, m_name, m_type, m_content) => {
     try {
       const m_ticket = new TicketsModel({
         creator: m_creator,
         project: m_project,
         name: m_name,
         ttype: m_type,
+        content: m_content,
       });
       await m_ticket.save();
     } catch (err) {

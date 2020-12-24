@@ -52,8 +52,8 @@ module.exports = {
   validateAddTeam: [
     body("team")
       .notEmpty()
-      .isArray({ min: 1 })
-      .withMessage("Must have at least one team member"),
+      .withMessage("Must have at least one team member")
+      .isArray({ min: 1 }),
   ],
 
   validateNewTicket: [
