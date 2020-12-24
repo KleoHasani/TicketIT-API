@@ -60,7 +60,7 @@ afterAll(async (done) => {
 });
 
 describe("TICKETS ROUTE", () => {
-  describe("POST - add new ticket to current project (name: myticket, ttype: TICKET_TYPE.TODO) | (name: myticket, ttype: 0)", () => {
+  describe("POST - add new ticket to current project", () => {
     it("Should add a new ticket to current project", async (done) => {
       const body = await request(m_app)
         .post(
@@ -70,6 +70,7 @@ describe("TICKETS ROUTE", () => {
         .send({
           name: "myticket",
           ttype: TICKET_TYPE.TODO,
+          content: "content...",
         });
       expect(body.status).toBe(201);
       expect(body.body.desc).toBe("PASS");

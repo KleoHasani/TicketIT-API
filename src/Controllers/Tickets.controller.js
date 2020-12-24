@@ -16,14 +16,15 @@ module.exports = {
    * @param {Response} m_res
    */
   createTicket: async (m_req, m_res) => {
-    const { name, ttype } = m_req.body;
+    const { name, ttype, content } = m_req.body;
 
     try {
       await createNewTicket(
         m_req.user.toString(),
         m_req.params.projectID,
         name,
-        ttype
+        ttype,
+        content
       );
       return m_res.status(201).json({
         status: 201,
