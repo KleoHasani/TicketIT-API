@@ -25,8 +25,8 @@ module.exports = {
         name,
         ttype
       );
-      return m_res.status(200).json({
-        status: 200,
+      return m_res.status(201).json({
+        status: 201,
         desc: "PASS",
         msg: "New ticket created",
         data: null,

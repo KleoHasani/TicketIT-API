@@ -36,6 +36,19 @@ describe("AUTH ROUTE", () => {
       done();
     });
 
+    it("Should fail to register new user with same email", async (done) => {
+      const body = await request(m_app).post("/api/auth/register").send({
+        firstname: "admin2",
+        lastname: "Lastname2",
+        email: "admin@admin.com",
+        password: "admin1232",
+      });
+      expect(body.status).toBe(400);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Email already exists");
+      done();
+    });
+
     it("Should fail to register new user without (firstname)", async (done) => {
       const body = await request(m_app).post("/api/auth/register").send({
         firstname: "",
