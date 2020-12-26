@@ -197,7 +197,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       if (err.status === 400) throw err;
-      throw createError.InternalServerError("Unable to update ticket");
+      throw createError.InternalServerError("Unable to assign to ticket");
     }
   },
 

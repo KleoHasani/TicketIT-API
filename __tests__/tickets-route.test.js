@@ -1,6 +1,5 @@
 const request = require("supertest");
-const { disconnect, connection, Document } = require("mongoose");
-const { verifyAccessToken } = require("../src/helpers/token");
+const { disconnect, connection } = require("mongoose");
 const { TICKET_TYPE } = require("../src/Models/Tickets.model");
 
 const { m_app } = require("../src/app");
@@ -499,4 +498,76 @@ describe("TICKETS ROUTE", () => {
       done();
     });
   });
+
+  describe("PATCH - update ticket assigned array", () => {
+    it("Should update ticket assigned array", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/assign/"
+        )
+        .set({ authorization: token })
+        .send({ assigned: ["touser"] });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.msg).toBe("Ticket assigned");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket assigned with no array", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/assign/"
+        )
+        .set({ authorization: token })
+        .send({ assigned: "" });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Invalid value");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail update ticket assigned without token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/assign/"
+        )
+        .send({ assigned: [] });
+      expect(body.status).toBe(401);
+      done();
+    });
+    it("Should fail update ticket assigned with bad token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/assign/"
+        )
+        .set({ authorization: "bad token" })
+        .send({ assigned: [] });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
+
+  // describe("DELETE - delete ticket", () => {
+  //   it("Should deltete ticket", async (done) => {
+  //     done();
+  //   });
+  // });
 });

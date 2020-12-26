@@ -204,17 +204,20 @@ module.exports = {
    * @param {Request} m_req
    * @param {Response} m_res
    */
-  deleteTicket: async (m_req, m_res) => {
+  assignTicket: async (m_req, m_res) => {
+    const { assigned } = m_req.body;
+
     try {
-      await deleteTicketByTicketID(
+      await assignTicketToUser(
         m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID.toString()
+        m_req.params.projectID.toString(),
+        assigned
       );
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
-        msg: "Ticket deleted",
+        msg: "Ticket assigned",
         data: null,
       });
     } catch (err) {
@@ -232,20 +235,17 @@ module.exports = {
    * @param {Request} m_req
    * @param {Response} m_res
    */
-  assignTicket: async (m_req, m_res) => {
-    const { assigned } = m_req.body;
-
+  deleteTicket: async (m_req, m_res) => {
     try {
-      await assignTicketToUser(
+      await deleteTicketByTicketID(
         m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID.toString(),
-        assigned
+        m_req.params.projectID.toString()
       );
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
-        msg: "Ticket assigned",
+        msg: "Ticket deleted",
         data: null,
       });
     } catch (err) {

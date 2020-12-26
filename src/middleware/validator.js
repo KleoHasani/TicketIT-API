@@ -77,12 +77,7 @@ module.exports = {
       .withMessage("Ticket type must be a valid type"),
   ],
 
-  validateTicketAssigned: [
-    body("assigned")
-      .notEmpty()
-      .withMessage("Ticket assigned can not be empty")
-      .isArray(),
-  ],
+  validateTicketAssigned: [body("assigned").isArray()],
 
   /**
    * @param {Request} m_req
