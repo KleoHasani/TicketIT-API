@@ -160,7 +160,7 @@ module.exports = {
    * @param {string} m_ticketID
    * @param {string} m_creator
    * @param {string} m_project
-   * @param {TICKET_TYPE} m_type
+   * @param {string} m_content
    */
   updateTicketContent: async (m_ticketID, m_creator, m_project, m_content) => {
     try {

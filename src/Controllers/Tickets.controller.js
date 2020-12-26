@@ -180,7 +180,7 @@ module.exports = {
       await updateTicketContent(
         m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID.toString.toString(),
+        m_req.params.projectID.toString(),
         content
       );
       return m_res.status(200).json({

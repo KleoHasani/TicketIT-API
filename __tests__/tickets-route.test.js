@@ -421,7 +421,7 @@ describe("TICKETS ROUTE", () => {
       done();
     });
 
-    it("Should fail update ticket name without token", async (done) => {
+    it("Should fail update ticket type without token", async (done) => {
       const body = await request(m_app)
         .patch(
           "/api/projects/" +
@@ -434,17 +434,67 @@ describe("TICKETS ROUTE", () => {
       expect(body.status).toBe(401);
       done();
     });
-    it("Should fail update ticket name with bad token", async (done) => {
+    it("Should fail update ticket type with bad token", async (done) => {
       const body = await request(m_app)
         .patch(
           "/api/projects/" +
             current_project._id.toString() +
             "/tickets/" +
             current_ticket._id.toString() +
-            "/update/name/"
+            "/update/type/"
         )
         .set({ authorization: "bad token" })
         .send({ ttype: TICKET_TYPE.TODO });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
+
+  describe("PATCH - update ticket content", () => {
+    it("Should update ticket content", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/content/"
+        )
+        .set({ authorization: token })
+        .send({ content: "content..." });
+
+      console.log(body.body.msg);
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.msg).toBe("Ticket content updated");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail update ticket content without token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/content/"
+        )
+        .send({ content: "content..." });
+      expect(body.status).toBe(401);
+      done();
+    });
+    it("Should fail update ticket content with bad token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/content/"
+        )
+        .set({ authorization: "bad token" })
+        .send({ content: "content..." });
       expect(body.status).toBe(401);
       done();
     });
