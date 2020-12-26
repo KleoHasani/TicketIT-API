@@ -89,7 +89,7 @@ router.get("/:projectID/tickets", getAllTickets);
 router.get("/:projectID/tickets/:ticketID", getTicket);
 
 /**
- * @desc Patch Update ticket name
+ * @desc PATCH Update ticket name
  * @route /api/projects/:projectID/tickets/:ticketID/update/name
  */
 router.patch(
@@ -99,7 +99,7 @@ router.patch(
 );
 
 /**
- * @desc Patch Update ticket type
+ * @desc PATCH Update ticket type
  * @route /api/projects/:projectID/tickets/:ticketID/update/type
  */
 router.patch(
@@ -109,13 +109,13 @@ router.patch(
 );
 
 /**
- * @desc Patch Update ticket content
+ * @desc PATCH Update ticket content
  * @route /api/projects/:projectID/tickets/:ticketID/update/content
  */
 router.patch("/:projectID/tickets/:ticketID/update/content", updateContent);
 
 /**
- * @desc Patch Assign ticket to user
+ * @desc PATCH Assign ticket to user
  * @route /api/projects/:projectID/tickets/update/assign
  */
 router.patch(
@@ -125,7 +125,7 @@ router.patch(
 );
 
 /**
- * @desc Delete Update ticket content
+ * @desc DELETE Update ticket content
  * @route /api/projects/:projectID/tickets/:ticketID/delete
  */
 router.delete("/:projectID/tickets/:ticketID/delete", deleteTicket);

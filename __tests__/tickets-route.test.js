@@ -7,7 +7,6 @@ const { m_app } = require("../src/app");
 
 let server = null;
 let token = null;
-let detokenized = null;
 let current_project = null;
 let current_ticket = null;
 
@@ -31,9 +30,6 @@ beforeAll(async (done) => {
   // get user token
   token = body.headers["authorization"];
 
-  // detokenize token
-  detokenized = verifyAccessToken(token.split(" ")[1]);
-
   // add new project
   await request(m_app)
     .post("/api/projects/new")
@@ -56,7 +52,6 @@ afterAll(async (done) => {
   await disconnect();
   server = null;
   token = null;
-  detokenized = null;
   current_project = null;
   current_ticket = null;
 });
@@ -271,16 +266,187 @@ describe("TICKETS ROUTE", () => {
     });
   });
 
-  // describe("PATCH - update ticket name", () => {
-  //   it("Should update ticket name", async (done) => {
-  //     const body = await request(m_app).patch(
-  //       "/api/projects" +
-  //         current_project._id.toString() +
-  //         "/tickets/" +
-  //         current_ticket._id.toString() +
-  //         "/update/name/"
-  //     );
-  //     done();
-  //   });
-  // });
+  describe("PATCH - update ticket name", () => {
+    it("Should update ticket name", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .set({ authorization: token })
+        .send({ name: "renamedticket" });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.msg).toBe("Ticket name updated");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket name with empty", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .set({ authorization: token })
+        .send({ name: "" });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Ticket name can not be empty");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket name without name", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .set({ authorization: token });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Ticket name can not be empty");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail update ticket name without token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .send({ name: "renamedticket" });
+      expect(body.status).toBe(401);
+      done();
+    });
+    it("Should fail update ticket name with bad token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .set({ authorization: "bad token" })
+        .send({ name: "renamedticket" });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
+
+  describe("PATCH - update ticket type", () => {
+    it("Should update ticket type", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/type/"
+        )
+        .set({ authorization: token })
+        .send({ ttype: 1 });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.msg).toBe("Ticket type updated");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket type with empty | string", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/type/"
+        )
+        .set({ authorization: token })
+        .send({ ttype: "" });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Ticket type can not be empty");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket type without type", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/type/"
+        )
+        .set({ authorization: token });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Ticket type can not be empty");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail to update ticket type with unsupported type", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/type/"
+        )
+        .set({ authorization: token })
+        .send({ ttype: 3 });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("FAIL");
+      expect(body.body.msg).toBe("Ticket type must be a valid type");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+
+    it("Should fail update ticket name without token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/type/"
+        )
+        .send({ ttype: TICKET_TYPE.BUG });
+      expect(body.status).toBe(401);
+      done();
+    });
+    it("Should fail update ticket name with bad token", async (done) => {
+      const body = await request(m_app)
+        .patch(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString() +
+            "/update/name/"
+        )
+        .set({ authorization: "bad token" })
+        .send({ ttype: TICKET_TYPE.TODO });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
 });
