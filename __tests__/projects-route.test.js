@@ -107,7 +107,7 @@ describe("PROJECTS ROUTE", () => {
   });
 
   // get all projects should get one since we added one on previous test.
-  describe("GET - All projects Endpoint", () => {
+  describe("GET - All projects endpoint", () => {
     it("Should return array of projects", async (done) => {
       const body = await request(m_app)
         .get("/api/projects/")

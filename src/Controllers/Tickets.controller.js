@@ -8,6 +8,8 @@ const {
   updateTicketContent,
   deleteTicketByTicketID,
   assignTicketToUser,
+  getAllTicketsByProjectPerCreator,
+  getTicketByTicketID,
 } = require("../Models/Tickets.model");
 
 module.exports = {
@@ -47,13 +49,76 @@ module.exports = {
    * @param {Request} m_req
    * @param {Response} m_res
    */
+  getAllTickets: async (m_req, m_res) => {
+    try {
+      const m_tickets = await getAllTicketsByProjectPerCreator(
+        m_req.params.projectID.toString(),
+        m_req.user.toString()
+      );
+      return m_res.status(200).json({
+        status: 200,
+        desc: "PASS",
+        msg: "",
+        data: m_tickets,
+      });
+    } catch (err) {
+      console.error(err);
+      return m_res.status(err.status).json({
+        status: err.status,
+        desc: "FAIL",
+        msg: err.message,
+        data: null,
+      });
+    }
+  },
+
+  /**
+   * @param {Request} m_req
+   * @param {Response} m_res
+   */
+  getTicket: async (m_req, m_res) => {
+    try {
+      const m_ticket = await getTicketByTicketID(
+        m_req.params.ticketID.toString(),
+        m_req.user.toString(),
+        m_req.params.projectID.toString()
+      );
+      if (!m_ticket)
+        return m_res.status(200).json({
+          status: 200,
+          desc: "FAIL",
+          msg: "No project found",
+          data: null,
+        });
+      return m_res.status(200).json({
+        status: 200,
+        desc: "PASS",
+        msg: "",
+        data: m_ticket,
+      });
+    } catch (err) {
+      console.error(err);
+      return m_res.status(err.status).json({
+        status: err.status,
+        desc: "FAIL",
+        msg: err.message,
+        data: null,
+      });
+    }
+  },
+
+  /**
+   * @param {Request} m_req
+   * @param {Response} m_res
+   */
   updateName: async (m_req, m_res) => {
     const { name } = m_req.body;
 
     try {
       await updateTicketName(
+        m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID,
+        m_req.params.projectID.toString(),
         name
       );
       return m_res.status(200).json({
@@ -82,8 +147,9 @@ module.exports = {
 
     try {
       await updateTicketType(
+        m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID,
+        m_req.params.projectID.toString(),
         ttype
       );
       return m_res.status(200).json({
@@ -112,8 +178,9 @@ module.exports = {
 
     try {
       await updateTicketContent(
+        m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID,
+        m_req.params.projectID.toString(),
         content
       );
       return m_res.status(200).json({
@@ -137,17 +204,20 @@ module.exports = {
    * @param {Request} m_req
    * @param {Response} m_res
    */
-  deleteTicket: async (m_req, m_res) => {
+  assignTicket: async (m_req, m_res) => {
+    const { assigned } = m_req.body;
+
     try {
-      await deleteTicketByTicketID(
-        m_req.params.ticketID,
+      await assignTicketToUser(
+        m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID
+        m_req.params.projectID.toString(),
+        assigned
       );
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
-        msg: "Ticket deleted",
+        msg: "Ticket assigned",
         data: null,
       });
     } catch (err) {
@@ -165,20 +235,17 @@ module.exports = {
    * @param {Request} m_req
    * @param {Response} m_res
    */
-  assignTicket: async (m_req, m_res) => {
-    const { assigned } = m_req.body;
-
+  deleteTicket: async (m_req, m_res) => {
     try {
-      await assignTicketToUser(
-        m_req.params.ticketID,
+      await deleteTicketByTicketID(
+        m_req.params.ticketID.toString(),
         m_req.user.toString(),
-        m_req.params.projectID,
-        assigned
+        m_req.params.projectID.toString()
       );
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
-        msg: "Ticket assigned",
+        msg: "Ticket deleted",
         data: null,
       });
     } catch (err) {

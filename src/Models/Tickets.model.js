@@ -73,14 +73,52 @@ module.exports = {
   },
 
   /**
+   * @param {string} m_project
+   * @param {string} m_creator
+   * @returns {[Document]}
+   */
+  getAllTicketsByProjectPerCreator: async (m_project, m_creator) => {
+    try {
+      return await TicketsModel.find({
+        creator: m_creator,
+        project: m_project,
+      });
+    } catch (err) {
+      console.error(err);
+      throw createError.InternalServerError("Unable to get tickets");
+    }
+  },
+
+  /**
+   * @param {string} m_ticketID
+   * @param {string} m_creator
+   * @param {string} m_project
+   * @returns {Document}
+   */
+  getTicketByTicketID: async (m_ticketID, m_creator, m_project) => {
+    try {
+      return await TicketsModel.findOne({
+        _id: m_ticketID,
+        creator: m_creator,
+        project: m_project,
+      });
+    } catch (err) {
+      console.error(err);
+      throw createError.InternalServerError("Unable to get ticket");
+    }
+  },
+
+  /**
+   * @param {string} m_ticketID
    * @param {string} m_creator
    * @param {string} m_project
    * @param {string} m_name
    */
-  updateTicketName: async (m_creator, m_project, m_name) => {
+  updateTicketName: async (m_ticketID, m_creator, m_project, m_name) => {
     try {
       const m_update = await TicketsModel.findOneAndUpdate(
         {
+          _id: m_ticketID,
           creator: m_creator,
           project: m_project,
         },
@@ -95,14 +133,16 @@ module.exports = {
   },
 
   /**
+   * @param {string} m_ticketID
    * @param {string} m_creator
    * @param {string} m_project
    * @param {TICKET_TYPE} m_type
    */
-  updateTicketType: async (m_creator, m_project, m_type) => {
+  updateTicketType: async (m_ticketID, m_creator, m_project, m_type) => {
     try {
       const m_update = await TicketsModel.findOneAndUpdate(
         {
+          _id: m_ticketID,
           creator: m_creator,
           project: m_project,
         },
@@ -117,14 +157,16 @@ module.exports = {
   },
 
   /**
+   * @param {string} m_ticketID
    * @param {string} m_creator
    * @param {string} m_project
-   * @param {TICKET_TYPE} m_type
+   * @param {string} m_content
    */
-  updateTicketContent: async (m_creator, m_project, m_content) => {
+  updateTicketContent: async (m_ticketID, m_creator, m_project, m_content) => {
     try {
       const m_update = await TicketsModel.findOneAndUpdate(
         {
+          _id: m_ticketID,
           creator: m_creator,
           project: m_project,
         },
@@ -155,7 +197,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       if (err.status === 400) throw err;
-      throw createError.InternalServerError("Unable to update ticket");
+      throw createError.InternalServerError("Unable to assign to ticket");
     }
   },
 

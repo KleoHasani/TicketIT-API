@@ -16,6 +16,8 @@ const {
   updateContent,
   deleteTicket,
   assignTicket,
+  getAllTickets,
+  getTicket,
 } = require("../Controllers/Tickets.controller");
 
 const {
@@ -75,39 +77,45 @@ router.post(
 );
 
 /**
- * @desc Patch Update ticket name
- * @route /api/projects/:projectID/tickets/update/name
+ * @desc GET Get all tickets by project and creator
+ * @route /api/projects/:projectID/tickets/
+ */
+router.get("/:projectID/tickets", getAllTickets);
+
+/**
+ * @desc GET Get ticket by ticket ID
+ * @route /api/projects/:projectID/tickets/:ticketID
+ */
+router.get("/:projectID/tickets/:ticketID", getTicket);
+
+/**
+ * @desc PATCH Update ticket name
+ * @route /api/projects/:projectID/tickets/:ticketID/update/name
  */
 router.patch(
-  "/:projectID/tickets/update/name",
+  "/:projectID/tickets/:ticketID/update/name",
   [validateTicketName, results],
   updateName
 );
 
 /**
- * @desc Patch Update ticket type
- * @route /api/projects/:projectID/tickets/update/type
+ * @desc PATCH Update ticket type
+ * @route /api/projects/:projectID/tickets/:ticketID/update/type
  */
 router.patch(
-  "/:projectID/tickets/update/type",
+  "/:projectID/tickets/:ticketID/update/type",
   [validateTicketType, results],
   updateType
 );
 
 /**
- * @desc Patch Update ticket content
- * @route /api/projects/:projectID/tickets/update/content
+ * @desc PATCH Update ticket content
+ * @route /api/projects/:projectID/tickets/:ticketID/update/content
  */
-router.patch("/:projectID/tickets/update/content", updateContent);
+router.patch("/:projectID/tickets/:ticketID/update/content", updateContent);
 
 /**
- * @desc Delete Update ticket content
- * @route /api/projects/:projectID/tickets/:ticketID/delete
- */
-router.delete("/:projectID/tickets/:ticketID/delete", deleteTicket);
-
-/**
- * @desc Patch Assign ticket to user
+ * @desc PATCH Assign ticket to user
  * @route /api/projects/:projectID/tickets/update/assign
  */
 router.patch(
@@ -115,5 +123,11 @@ router.patch(
   [validateTicketAssigned, results],
   assignTicket
 );
+
+/**
+ * @desc DELETE Update ticket content
+ * @route /api/projects/:projectID/tickets/:ticketID/delete
+ */
+router.delete("/:projectID/tickets/:ticketID/delete", deleteTicket);
 
 module.exports = router;
