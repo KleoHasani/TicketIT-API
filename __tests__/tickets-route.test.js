@@ -9,6 +9,7 @@ let server = null;
 let token = null;
 let detokenized = null;
 let current_project = null;
+let current_ticket = null;
 
 beforeAll(async (done) => {
   server = m_app.listen(3000);
@@ -57,6 +58,7 @@ afterAll(async (done) => {
   token = null;
   detokenized = null;
   current_project = null;
+  current_ticket = null;
 });
 
 describe("TICKETS ROUTE", () => {
@@ -196,4 +198,89 @@ describe("TICKETS ROUTE", () => {
       done();
     });
   });
+
+  describe("GET - All tickets endpoint", () => {
+    it("Should return array of tickets", async (done) => {
+      const body = await request(m_app)
+        .get("/api/projects/" + current_project._id.toString() + "/tickets/")
+        .set({ authorization: token });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.data.length).toBeGreaterThanOrEqual(0);
+      current_ticket = body.body.data[0];
+      expect(current_ticket).not.toBeNull();
+      done();
+    });
+
+    it("Should fail to return array of tickets without token", async (done) => {
+      const body = await request(m_app).get(
+        "/api/projects/" + current_project._id.toString() + "/tickets/"
+      );
+      expect(body.status).toBe(401);
+      done();
+    });
+
+    it("Should fail to return array of tickets with bad token", async (done) => {
+      const body = await request(m_app)
+        .get("/api/projects/" + current_project._id.toString() + "/tickets/")
+        .set({ authorization: "bad token" });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
+
+  describe("GET - One ticket endpoint", () => {
+    it("Should return array of tickets size of 1", async (done) => {
+      const body = await request(m_app)
+        .get(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString()
+        )
+        .set({ authorization: token });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.data._id).toBe(current_ticket._id.toString());
+      expect(body.body.data[0]).not.toBeNull();
+      done();
+    });
+
+    it("Should fail to return ticket without token", async (done) => {
+      const body = await request(m_app).get(
+        "/api/projects/" +
+          current_project._id.toString() +
+          "/tickets/" +
+          current_ticket._id.toString()
+      );
+      expect(body.status).toBe(401);
+      done();
+    });
+
+    it("Should fail to return ticket with bad token", async (done) => {
+      const body = await request(m_app)
+        .get(
+          "/api/projects/" +
+            current_project._id.toString() +
+            "/tickets/" +
+            current_ticket._id.toString()
+        )
+        .set({ authorization: "bad token" });
+      expect(body.status).toBe(401);
+      done();
+    });
+  });
+
+  // describe("PATCH - update ticket name", () => {
+  //   it("Should update ticket name", async (done) => {
+  //     const body = await request(m_app).patch(
+  //       "/api/projects" +
+  //         current_project._id.toString() +
+  //         "/tickets/" +
+  //         current_ticket._id.toString() +
+  //         "/update/name/"
+  //     );
+  //     done();
+  //   });
+  // });
 });

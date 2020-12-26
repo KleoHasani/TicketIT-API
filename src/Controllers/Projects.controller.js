@@ -1,5 +1,6 @@
 ("use strict");
 const { Request, Response } = require("express");
+const { Document } = require("mongoose");
 
 const {
   createNewProject,
@@ -13,6 +14,7 @@ module.exports = {
   /**
    * @param {Request} m_req
    * @param {Response} m_res
+   * @returns {[Document]}
    */
   getAllProjects: async (m_req, m_res) => {
     try {
@@ -37,6 +39,7 @@ module.exports = {
   /**
    * @param {Request} m_req
    * @param {Response} m_res
+   * @returns {Document}
    */
   getProject: async (m_req, m_res) => {
     try {
@@ -49,12 +52,12 @@ module.exports = {
           status: 200,
           desc: "FAIL",
           msg: "No project found",
-          data: m_project,
+          data: null,
         });
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
-        msg: null,
+        msg: "",
         data: m_project,
       });
     } catch (err) {
