@@ -27,6 +27,13 @@ module.exports = {
       });
     } catch (err) {
       console.error(err);
+      if (err.status === 400)
+        return m_res.status(200).json({
+          status: 200,
+          desc: "FAIL",
+          msg: err.message,
+          data: null,
+        });
       return m_res.status(err.status).json({
         status: err.status,
         desc: "FAIL",
@@ -57,6 +64,13 @@ module.exports = {
       });
     } catch (err) {
       console.error(err);
+      if (err.status === 400)
+        return m_res.status(200).json({
+          status: 200,
+          desc: "FAIL",
+          msg: " Email or password does not match",
+          data: null,
+        });
       return m_res.status(err.status).json({
         status: err.status,
         desc: "FAIL",
