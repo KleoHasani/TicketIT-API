@@ -1,5 +1,6 @@
 ("use-strict");
 const express = require("express");
+const cors = require("cors");
 const passport = require("passport");
 
 // Config
@@ -25,6 +26,16 @@ const m_app = express();
 
 // Disable headers
 m_app.disable("x-powered-by");
+
+// Use CORS
+const corsOptions = {
+  origin: process.env.DOMAIN,
+  methods: "GET,PATCH,POST,DELETE",
+  allowedHeaders: ["content-type", "authorization", "x-refresh"],
+  exposedHeaders: ["authorization", "x-refresh"],
+};
+
+m_app.use(cors(corsOptions));
 
 //Middleware
 m_app.use(express.json({ type: "application/json" }));
