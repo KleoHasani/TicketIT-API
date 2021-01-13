@@ -7,6 +7,7 @@ const {
   getProject,
   updateTeam,
   updateProjectName,
+  deleteProject,
 } = require("../Controllers/Projects.controller");
 
 const {
@@ -49,6 +50,12 @@ router.get("/:projectID", getProject);
  * @route /api/projects/new
  */
 router.post("/new", [validateProjectName, results], createProject);
+
+/**
+ * @desc DELETE Create Project route
+ * @route /api/projects/:projectID/delete
+ */
+router.delete("/:projectID/delete", deleteProject);
 
 /**
  * @desc PATCH Update teams array

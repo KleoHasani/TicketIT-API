@@ -17,6 +17,7 @@ const { auth } = require("./middleware/auth");
 // routes
 const m_auth = require("./Routes/Auth.router");
 const m_projects = require("./Routes/Projects.router");
+const m_user = require("./Routes/User.router");
 
 // Init port
 const m_port = parseInt(process.env.PORT, 10) || 8000;
@@ -44,6 +45,7 @@ m_app.use(passport.initialize());
 // Routes
 m_app.use("/api/auth", m_auth);
 m_app.use("/api/projects", auth, m_projects);
+m_app.use("/api/user", auth, m_user);
 
 // Route does not exist
 m_app.use(notFound);

@@ -21,7 +21,6 @@ const ProjectsSchema = new Schema({
 
   created: {
     type: Date,
-    default: Date.now(),
   },
 });
 
@@ -61,6 +60,7 @@ module.exports = {
    * @param {string} m_creator
    * @param {string} m_project
    * @param {[string]} m_team
+   * @returns {Document}
    */
   createNewProject: async (m_creator, m_name, m_team) => {
     try {
@@ -68,13 +68,34 @@ module.exports = {
         creator: m_creator,
         name: m_name,
         team: m_team,
+        created: new Date(),
       });
       await project.save();
+      return project;
     } catch (err) {
       console.error(err);
       if (err.code === 11000)
         throw createError.BadRequest("Project name is already taken");
       throw createError.InternalServerError("Unable to create new project");
+    }
+  },
+
+  /**
+   * @param {string} m_creator
+   * @param {string} m_id
+   */
+  deleteProjectByProjectID: async (m_creator, m_projectID) => {
+    try {
+      const m_deleted = await ProjectsModel.findByIdAndDelete({
+        _id: m_projectID,
+        creator: m_creator,
+      });
+
+      if (!m_deleted) throw createError.BadRequest("Project was not deleted");
+    } catch (err) {
+      console.error(err);
+      if (err.status === 400) throw err;
+      throw createError.InternalServerError("Unable to delete project");
     }
   },
 

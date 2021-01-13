@@ -72,15 +72,39 @@ module.exports = {
     } catch (err) {
       console.error(err);
       if (err.status === 400) throw err;
-      throw createError.InternalServerError("Unable to login");
+      throw createError.InternalServerErrom_user;
     }
   },
 
-  validateUser: async (id) => {
+  /**
+   * @param {string} m_id
+   * @returns {string}
+   */
+  validateUser: async (m_id) => {
     try {
-      const m_user = await UserModel.findById(id);
+      const m_user = await UserModel.findById(m_id);
       if (!m_user) throw createError.BadRequest("Unable to find user");
       return m_user._id;
+    } catch (err) {
+      console.error(err);
+      if (err.status === 400) throw err;
+      throw createError.InternalServerError("Unable to validate user");
+    }
+  },
+
+  /**
+   * @param {string} m_id
+   * @returns {object}
+   */
+  getUserByID: async (m_id) => {
+    try {
+      const m_user = await UserModel.findById(m_id);
+      if (!m_user) throw createError.BadRequest("Unable to find user");
+      return {
+        firstname: m_user.firstname,
+        lastname: m_user.lastname,
+        email: m_user.email,
+      };
     } catch (err) {
       console.error(err);
       if (err.status === 400) throw err;

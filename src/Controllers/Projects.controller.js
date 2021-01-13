@@ -8,6 +8,7 @@ const {
   getProjectByID,
   updateTeamByProjectID,
   renameProjectByProjectID,
+  deleteProjectByProjectID,
 } = require("../Models/Projects.model");
 
 module.exports = {
@@ -79,11 +80,40 @@ module.exports = {
     const { project } = m_req.body;
 
     try {
-      await createNewProject(m_req.user, project, [m_req.user]);
+      const m_project = await createNewProject(m_req.user, project, [
+        m_req.user,
+      ]);
       return m_res.status(201).json({
         status: 201,
         desc: "PASS",
         msg: "Project created",
+        data: m_project,
+      });
+    } catch (err) {
+      console.error(err);
+      return m_res.status(err.status).json({
+        status: err.status,
+        desc: "FAIL",
+        msg: err.message,
+        data: null,
+      });
+    }
+  },
+
+  /**
+   * @param {Request} m_req
+   * @param {Response} m_res
+   */
+  deleteProject: async (m_req, m_res) => {
+    try {
+      await deleteProjectByProjectID(
+        m_req.user,
+        m_req.params.projectID.toString()
+      );
+      return m_res.status(200).json({
+        status: 201,
+        desc: "PASS",
+        msg: "Project deleted",
         data: null,
       });
     } catch (err) {
