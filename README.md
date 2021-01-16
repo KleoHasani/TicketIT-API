@@ -17,6 +17,7 @@ PORT=8000
 MONGO_URI=yourmongourihere
 ACCESS_TOKEN=your256bitaccesstokensecret
 REFRESH_TOKEN=your256bitaccesstokensecret
+DOMAIN=OnlyDomainAllowedToAccessAPI
 ```
 
 Or use generator for more secure strings:

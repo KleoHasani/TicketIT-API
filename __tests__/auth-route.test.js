@@ -237,30 +237,4 @@ describe("AUTH ROUTE", () => {
       done();
     });
   });
-
-  // logout
-  describe("DELETE - Logout endpoint", () => {
-    it("Should logout user", async (done) => {
-      const body = await request(m_app)
-        .delete("/api/auth/logout")
-        .set({ authorization: token });
-      expect(body.status).toEqual(200);
-      expect(body.body.desc).toBe("PASS");
-      done();
-    });
-
-    it("Should fail to logout user without authorization token", async (done) => {
-      const body = await request(m_app).delete("/api/auth/logout");
-      expect(body.status).toEqual(401);
-      done();
-    });
-
-    it("Should fail to logout user without valid authorization token", async (done) => {
-      const body = await request(m_app)
-        .delete("/api/auth/logout")
-        .set({ authorization: "not valid token" });
-      expect(body.status).toEqual(401);
-      done();
-    });
-  });
 });

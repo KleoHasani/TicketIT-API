@@ -19,7 +19,7 @@ module.exports = {
    */
   getAllProjects: async (m_req, m_res) => {
     try {
-      const projects = await getAllProjectsByUser(m_req.user);
+      const projects = await getAllProjectsByUser(m_req.user.toString());
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",
@@ -80,8 +80,8 @@ module.exports = {
     const { project } = m_req.body;
 
     try {
-      const m_project = await createNewProject(m_req.user, project, [
-        m_req.user,
+      const m_project = await createNewProject(m_req.user.toString(), project, [
+        m_req.user.toString(),
       ]);
       return m_res.status(201).json({
         status: 201,
@@ -107,7 +107,7 @@ module.exports = {
   deleteProject: async (m_req, m_res) => {
     try {
       await deleteProjectByProjectID(
-        m_req.user,
+        m_req.user.toString(),
         m_req.params.projectID.toString()
       );
       return m_res.status(200).json({

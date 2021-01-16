@@ -2,7 +2,7 @@
 const { Request, Response } = require("express");
 const createError = require("http-errors");
 const { newUser, authenitcateUser } = require("../Models/User.model");
-const { validRefresh, remove } = require("../Models/Blacklist.model");
+const { validRefresh } = require("../Models/Blacklist.model");
 const {
   signAccessToken,
   signRefreshToken,
@@ -71,30 +71,6 @@ module.exports = {
           msg: " Email or password does not match",
           data: null,
         });
-      return m_res.status(err.status).json({
-        status: err.status,
-        desc: "FAIL",
-        msg: err.message,
-        data: null,
-      });
-    }
-  },
-
-  /**
-   * @param {Request} m_req
-   * @param {Response} m_res
-   */
-  logout: async (m_req, m_res) => {
-    try {
-      await remove(m_req.user);
-      return m_res.status(200).json({
-        status: 200,
-        desc: "PASS",
-        msg: "Logged out",
-        data: null,
-      });
-    } catch (err) {
-      console.error(err);
       return m_res.status(err.status).json({
         status: err.status,
         desc: "FAIL",

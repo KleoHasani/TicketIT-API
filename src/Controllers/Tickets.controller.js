@@ -52,7 +52,7 @@ module.exports = {
   getAllTickets: async (m_req, m_res) => {
     try {
       const m_tickets = await getAllTicketsByProjectPerCreator(
-        m_req.params.projectID.toString(),
+        m_req.params.projectID,
         m_req.user.toString()
       );
       return m_res.status(200).json({
@@ -79,9 +79,9 @@ module.exports = {
   getTicket: async (m_req, m_res) => {
     try {
       const m_ticket = await getTicketByTicketID(
-        m_req.params.ticketID.toString(),
+        m_req.params.ticketID,
         m_req.user.toString(),
-        m_req.params.projectID.toString()
+        m_req.params.projectID
       );
       if (!m_ticket)
         return m_res.status(200).json({
@@ -116,9 +116,9 @@ module.exports = {
 
     try {
       await updateTicketName(
-        m_req.params.ticketID.toString(),
+        m_req.params.ticketID,
         m_req.user.toString(),
-        m_req.params.projectID.toString(),
+        m_req.params.projectID,
         name
       );
       return m_res.status(200).json({
@@ -147,9 +147,9 @@ module.exports = {
 
     try {
       await updateTicketType(
-        m_req.params.ticketID.toString(),
+        m_req.params.ticketID,
         m_req.user.toString(),
-        m_req.params.projectID.toString(),
+        m_req.params.projectID,
         ttype
       );
       return m_res.status(200).json({
@@ -178,9 +178,9 @@ module.exports = {
 
     try {
       await updateTicketContent(
-        m_req.params.ticketID.toString(),
+        m_req.params.ticketID,
         m_req.user.toString(),
-        m_req.params.projectID.toString(),
+        m_req.params.projectID,
         content
       );
       return m_res.status(200).json({
@@ -209,9 +209,9 @@ module.exports = {
 
     try {
       await assignTicketToUser(
-        m_req.params.ticketID.toString(),
+        m_req.params.ticketID,
         m_req.user.toString(),
-        m_req.params.projectID.toString(),
+        m_req.params.projectID,
         assigned
       );
       return m_res.status(200).json({

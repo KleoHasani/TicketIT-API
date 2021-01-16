@@ -45,7 +45,7 @@ m_app.use(passport.initialize());
 // Routes
 m_app.use("/api/auth", m_auth);
 m_app.use("/api/projects", auth, m_projects);
-m_app.use("/api/user", auth, m_user);
+m_app.use("/api/user", auth, auth, m_user);
 
 // Route does not exist
 m_app.use(notFound);
