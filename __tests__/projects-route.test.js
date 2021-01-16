@@ -350,4 +350,34 @@ describe("PROJECTS ROUTE", () => {
       done();
     });
   });
+
+  // delete projet
+  describe("DELETE - delete project by project id", () => {
+    it("Should fail to delete without token", async (done) => {
+      const body = await request(m_app).delete(
+        "/api/projects/" + current_project._id.toString() + "/delete"
+      );
+      expect(body.status).toBe(401);
+      done();
+    });
+
+    it("Should fail to delete with bad token", async (done) => {
+      const body = await request(m_app)
+        .delete("/api/projects/" + current_project._id.toString() + "/delete")
+        .set({ authorization: "bad token" });
+      expect(body.status).toBe(401);
+      done();
+    });
+
+    it("Should delete", async (done) => {
+      const body = await request(m_app)
+        .delete("/api/projects/" + current_project._id.toString() + "/delete")
+        .set({ authorization: token });
+      expect(body.status).toBe(200);
+      expect(body.body.desc).toBe("PASS");
+      expect(body.body.msg).toBe("Project deleted");
+      expect(body.body.data).toBeNull();
+      done();
+    });
+  });
 });

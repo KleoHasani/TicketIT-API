@@ -43,7 +43,7 @@ describe("AUTH ROUTE", () => {
         email: "admin@admin.com",
         password: "admin1232",
       });
-      expect(body.status).toBe(400);
+      expect(body.status).toBe(200);
       expect(body.body.desc).toBe("FAIL");
       expect(body.body.msg).toBe("Email already exists");
       done();

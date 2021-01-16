@@ -111,7 +111,7 @@ module.exports = {
         m_req.params.projectID.toString()
       );
       return m_res.status(200).json({
-        status: 201,
+        status: 200,
         desc: "PASS",
         msg: "Project deleted",
         data: null,
