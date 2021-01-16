@@ -1,6 +1,5 @@
 const request = require("supertest");
 const { disconnect, connection } = require("mongoose");
-const { verifyAccessToken } = require("../src/helpers/token");
 
 const { m_app } = require("../src/app");
 
