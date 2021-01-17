@@ -60,7 +60,7 @@ module.exports = {
         status: 200,
         desc: "PASS",
         msg: "Authentication successful",
-        data: m_id,
+        data: null,
       });
     } catch (err) {
       console.error(err);
