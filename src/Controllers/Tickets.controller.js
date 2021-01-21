@@ -21,7 +21,7 @@ module.exports = {
     const { name, ttype, content } = m_req.body;
 
     try {
-      await createNewTicket(
+      const m_ticket = await createNewTicket(
         m_req.user.toString(),
         m_req.params.projectID,
         name,
@@ -32,7 +32,7 @@ module.exports = {
         status: 201,
         desc: "PASS",
         msg: "New ticket created",
-        data: null,
+        data: m_ticket,
       });
     } catch (err) {
       console.error(err);

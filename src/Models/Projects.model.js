@@ -1,6 +1,7 @@
 ("use strict");
 const { Schema, model } = require("mongoose");
 const createError = require("http-errors");
+const { cascadeDelete } = require("./Tickets.model");
 
 const ProjectsSchema = new Schema({
   creator: {
@@ -21,6 +22,7 @@ const ProjectsSchema = new Schema({
 
   created: {
     type: Date,
+    default: new Date(),
   },
 });
 
@@ -68,7 +70,6 @@ module.exports = {
         creator: m_creator,
         name: m_name,
         team: m_team,
-        created: new Date(),
       });
       await project.save();
       return project;
@@ -86,6 +87,7 @@ module.exports = {
    */
   deleteProjectByProjectID: async (m_creator, m_projectID) => {
     try {
+      const m_cascade = await cascadeDelete(m_creator, m_projectID);
       const m_deleted = await ProjectsModel.findByIdAndDelete({
         _id: m_projectID,
         creator: m_creator,

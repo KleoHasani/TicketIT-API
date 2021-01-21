@@ -7,6 +7,12 @@ const TICKET_TYPE = {
   BUG: 1,
 };
 
+const TICKET_STATUS = {
+  TICKET: 0,
+  INPROGRESS: 1,
+  COMPLETE: 2,
+};
+
 const TicketsSchema = new Schema({
   creator: {
     type: String,
@@ -31,6 +37,13 @@ const TicketsSchema = new Schema({
     max: 1,
     required: true,
   },
+  tstatus: {
+    type: Number,
+    min: 0,
+    max: 1,
+    required: true,
+    default: TICKET_STATUS.TICKET,
+  },
   assigned: [
     {
       type: String,
@@ -40,7 +53,7 @@ const TicketsSchema = new Schema({
   ],
   created: {
     type: Date,
-    default: Date.now(),
+    default: new Date(),
   },
 });
 
@@ -66,6 +79,7 @@ module.exports = {
         content: m_content,
       });
       await m_ticket.save();
+      return m_ticket;
     } catch (err) {
       console.error(err);
       throw createError.InternalServerError("Unable to create new ticket");
@@ -219,6 +233,24 @@ module.exports = {
       console.error(err);
       if (err.status === 400) throw err;
       throw createError.InternalServerError("Unable to delete ticket");
+    }
+  },
+
+  cascadeDelete: async (m_creator, m_project) => {
+    try {
+      const m_deleted = await TicketsModel.deleteMany({
+        creator: m_creator,
+        project: m_project,
+      });
+
+      if (!m_deleted)
+        throw createError.BadRequest("Something went wrong cascade delete!");
+    } catch (err) {
+      console.error(err);
+      if (err.status === 400) throw err;
+      throw createError.InternalServerError(
+        "Unable to delete, problems with cascade delete"
+      );
     }
   },
 };
