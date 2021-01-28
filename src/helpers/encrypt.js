@@ -1,6 +1,5 @@
 ("use strict");
 const { compare, hash, genSalt } = require("bcrypt");
-const createError = require("http-errors");
 
 module.exports = {
   /**

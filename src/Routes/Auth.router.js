@@ -1,6 +1,5 @@
 ("use strict");
 const { Router } = require("express");
-const { auth } = require("../middleware/auth");
 
 // Controller Import
 const { register, login, refresh } = require("../Controllers/Auth.controller");

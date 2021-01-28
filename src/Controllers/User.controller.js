@@ -14,7 +14,6 @@ module.exports = {
     try {
       await remove(m_req.user);
       m_req.logout();
-      //m_req.user = null;
       return m_res.status(200).json({
         status: 200,
         desc: "PASS",

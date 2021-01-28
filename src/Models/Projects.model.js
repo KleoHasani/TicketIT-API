@@ -87,7 +87,7 @@ module.exports = {
    */
   deleteProjectByProjectID: async (m_creator, m_projectID) => {
     try {
-      const m_cascade = await cascadeDelete(m_creator, m_projectID);
+      await cascadeDelete(m_creator, m_projectID);
       const m_deleted = await ProjectsModel.findByIdAndDelete({
         _id: m_projectID,
         creator: m_creator,

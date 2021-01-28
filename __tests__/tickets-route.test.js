@@ -71,6 +71,11 @@ describe("TICKETS ROUTE", () => {
       expect(body.status).toBe(201);
       expect(body.body.desc).toBe("PASS");
       expect(body.body.msg).toBe("New ticket created");
+      expect(body.body.data).toMatchObject({
+        name: "myticket",
+        ttype: TICKET_TYPE.TODO,
+        content: "content...",
+      });
       done();
     });
 

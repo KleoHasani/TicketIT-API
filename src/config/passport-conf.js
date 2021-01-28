@@ -4,7 +4,6 @@ const { ExtractJwt, Strategy } = require("passport-jwt");
 const { validateUser } = require("../Models/User.model");
 
 /**
- *
  * @param {PassportStatic} passport
  */
 module.exports = (passport) => {
