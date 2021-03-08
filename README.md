@@ -50,13 +50,16 @@ Run Dev:
 npm run start:dev
 ```
 
-## Required
+### Required
 
 - Node v15.2.0
 
-## Build With
+### Build With
 
-- Node
+Node
+```npm
+npm run build
+```
 
 ## Version
 
