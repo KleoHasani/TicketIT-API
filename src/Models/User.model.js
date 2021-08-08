@@ -72,7 +72,7 @@ module.exports = {
     } catch (err) {
       console.error(err);
       if (err.status === 400) throw err;
-      throw createError.InternalServerErrom_user;
+      throw createError.InternalServerError("Unable to validate user");
     }
   },
 
