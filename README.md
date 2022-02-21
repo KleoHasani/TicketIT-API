@@ -1,3 +1,7 @@
+<p align="center">
+	<img src="./docs/screenshots/logo.png" width="200px" height="200px">
+</p>
+
 # TicketIT-API
 
 (API) ExpressJS server for TicketIT app.
